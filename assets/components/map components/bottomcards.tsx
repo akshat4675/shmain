@@ -28,9 +28,8 @@ const Belowcard = () => {
 
   const renderItem = () => (
     <>
-    <TouchableOpacity onPress={(e)=>{
-      e.stopPropagation();
-      setPlaces(true)
+    <TouchableOpacity onPress={()=>{
+      
     }}>
     <View style={styles.card}>
       <View style={{top:"20%",left:"10%"}}>

@@ -6,6 +6,7 @@ import MapView, { Marker,PROVIDER_GOOGLE ,MapMarker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import { searchNearbyPlaces, getPlaceDetails } from './aws-utils/aws-config'; // Adjust the path as needed
 import Carddetails from './map components/card';
+import Belowcard from './map components/bottomcards';
 
 interface NearbyPlace {
     name: string;
@@ -18,8 +19,6 @@ const MapScreen= () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [places, setPlaces] = useState<NearbyPlace[]>([]);
     const [isCardVisible, setIsCardVisible] = useState(false);
-  
-    
   
    const onMarkerPress = () => {
     setIsCardVisible(true); // Show the card
@@ -96,7 +95,7 @@ const MapScreen= () => {
           )}
           
           <View style={styles.overlay}>
-          
+          <Belowcard  />
           <TextInput
             style={styles.input}
             placeholder="Search here..."

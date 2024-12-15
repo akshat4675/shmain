@@ -1,5 +1,6 @@
 
 import MapScreen from "@/assets/components/map";
+import Belowcard from "@/assets/components/map components/bottomcards";
 import React from "react";
 import { SafeAreaView, StatusBar, Text, View } from "react-native";
 
@@ -14,6 +15,7 @@ const Indexscreen = ()=> {
         barStyle="dark-content" // Adjust the text style for visibility
     />
     <MapScreen/>
+    <Belowcard  />
    </>
     );
 }
