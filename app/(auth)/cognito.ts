@@ -1,5 +1,5 @@
 import { AWS_CONFIG } from './awsconfig';
-import { CognitoUserPool,  CognitoUser,AuthenticationDetails, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { CognitoUserPool,  CognitoUser,AuthenticationDetails, CognitoUserSession, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 
@@ -11,13 +11,29 @@ import { router } from 'expo-router';
 
  
   
-  export const signUp = (email: string, password: string) =>
-    new Promise((resolve, reject) => {
-      userPool.signUp(email, password, [],[], (err, result) => {
-        if (err) reject(err.message || JSON.stringify(err));
-        else resolve(result);
-      });
+  export const signUpUser = (
+    username: string,
+    email: string,
+    password: string,
+    onSuccess: () => void,
+    onError: (err: any) => void
+  ) => {
+    const attributes: CognitoUserAttribute[] = [
+      new CognitoUserAttribute({
+        Name: "email",
+        Value: email,
+      }),
+    ];
+  
+    userPool.signUp(username, password, attributes, [], (err, result) => {
+      if (err) {
+        onError(err);
+        return;
+      }
+      onSuccess();
     });
+  };
+  
   
   
     export const signIn = (email: string, password: string) =>
@@ -35,9 +51,9 @@ import { router } from 'expo-router';
         });
       });
 
-    export const confirmUser = (email: string, code: string) =>
+ export const confirmUser = (username: string, code: string) =>
         new Promise((resolve, reject) => {
-          const user = new CognitoUser({ Username: email, Pool: userPool });
+          const user = new CognitoUser({ Username: username, Pool: userPool });
           user.confirmRegistration(code, true, (err, result) => {
             console.log(err)
             if (err) reject(err.message || JSON.stringify(err));
@@ -63,90 +79,4 @@ import { router } from 'expo-router';
         };
 
         //
-
-
-export const checkUserExists = (phoneNumber: string): Promise<boolean> => {
-  const cognitoUser = new CognitoUser({
-    Username: phoneNumber,
-    Pool: userPool,
-  });
-
-  return new Promise((resolve, reject) => {
-    cognitoUser.getSession((err: any) => {
-      if (err) {
-        console.log(err)
-        resolve(false); // No session, user does not exist
-      } else {
-        
-        resolve(true); // Session exists, user exists
-      }
-    });
-  });
-};
-
-// Send OTP
-export const sendOTP = (phoneNumber: string): Promise<CognitoUser> => {
-  const cognitoUser = new CognitoUser({
-    Username: phoneNumber,
-    Pool: userPool,
-  });
-
-  const authenticationDetails = new AuthenticationDetails({
-    Username: 'username',
-  });
-
-  return new Promise((resolve, reject) => {
-    cognitoUser.initiateAuth(
-      authenticationDetails,
-      {
-        onSuccess: (result) => resolve(cognitoUser),
-        onFailure: (err) =>{ 
-          console.log(err);
-          reject(err);
-        },
-      }
-    );
-  });
-};
-
-
-// Verify OTP
-export const verifyOTP = (cognitoUser: CognitoUser, otp: string): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    cognitoUser.sendCustomChallengeAnswer(otp, {
-      onSuccess: (session) => resolve(session),
-      onFailure: (err) =>{ 
-        console.log(err);
-        reject(err);
-      },
-    });
-  });
-};
-
-// Register new user
-export const registerUser = (phoneNumber: string, session: any): Promise<void> => {
-  // Example additional attributes to add to the user
-  const userAttributes = [
-    {
-      Name: 'phone_number_verified',
-      Value: 'true',
-    },
-  ];
-
-  return new Promise((resolve, reject) => {
-    userPool.signUp(
-      phoneNumber,
-      session.getAuthenticationCode(),
-      [],
-      [],
-      (err, result) => {
-        if (err) {
-          reject(err);
-          console.log(err);
-        } else {
-          resolve();
-        }
-      }
-    );
-  });
-};
+      

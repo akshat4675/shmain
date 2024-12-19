@@ -52,9 +52,10 @@ const Signinform =() => {
     try {
       await signIn(email, password);
       Alert.alert("succes")    
-      router.replace('/home')
+      router.replace('/(tabs)/home')
     } catch (err: any) {1
       setError(err?.message || 'Something went wrong');
+      Alert.alert(err)
     }
     setLoading(false);
   };

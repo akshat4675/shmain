@@ -2,9 +2,9 @@ import * as React from "react";
 import {Text, StyleSheet,ScrollView, View,Button, Pressable,TextInput, Alert, StatusBar} from "react-native";
 import { Image } from 'expo-image';
 import { useAnimatedKeyboard } from "react-native-reanimated";
-import { Link, useNavigation } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 import { useState } from "react";
-import { confirmUser, signUp } from "./cognito";
+import { confirmUser,signUpUser } from "./cognito";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Signupscreen (){
@@ -247,28 +247,30 @@ const Form: React.FunctionComponent<DialogComponentProps> = () => {
 
 
 
-  const handleSignUp = async () => {
-    /*if (!email.trim()||!password.trim()||!uname.trim()||!phone.trim()||!phone.trim()||!password.trim()) {
-      Alert.alert('Oops', '\nFill in all the details please');
-    } else {*/
-      try {
-        await signUp(email, password);
-        Alert.alert("Success")
-      } catch (err: any) {
-        setError(err);
-        console.log(err)
-        console.log(error);
-        if(error==="Value at 'username' failed to satisfy constraint: Member must have length greater than or equal to 1")
+  const handleSignup = () => {
+    if (password !== confirmpassword) {
+      Alert.alert("Passwords do not match");
+      return;
+    }
+
+    signUpUser(
+      uname,
+      email,
+      password,
+      () => {
+        Alert.alert("Sign up successful!", "Please check your email or phone for confirmation.", [
+          { text: "OK", onPress: () => router.navigate("/(auth)/confirmuser") },
+        ]);
+      },
+      (err) =>
         {
-          Alert.alert('email alert')
-        }
-        else
-        {
-          Alert.alert("failed signup")
-        }
-        
-      }
-    //} 
+          Alert.alert("Sign up failed", err.message || "An error occurred")
+          if(err.message==='User already exists')
+          {
+            router.navigate('/(auth)/confirmuser')
+          }
+        } 
+    );
   };
     
 
@@ -314,7 +316,7 @@ const Form: React.FunctionComponent<DialogComponentProps> = () => {
         </View>
         <View style={[but.rectangleParent]}> 
         <View style={[but.groupChild, but.groupPosition]} />
-        <Pressable style={but.button} onPress={handleSignUp}>
+        <Pressable style={but.button} onPress={handleSignup}>
         <Text style={but.buttonLabel}>Sign Up</Text>
         </Pressable>
         <View >
