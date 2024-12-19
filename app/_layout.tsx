@@ -1,37 +1,31 @@
-import {Tabs } from "expo-router";
-import React from "react";
-import { Image } from "expo-image";
-import 'react-native-gesture-handler';
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { SplashScreen, Stack} from 'expo-router';
+import { useFonts } from 'expo-font';
+
+const RootLayout = () => {
+
+  const [loaded] = useFonts({
+    SFProRounded: require('../assets/fonts/SF-Pro-Rounded-Regular.otf'),
+  });
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
 
 
-export default function RootLayout() {
-
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-    <Tabs screenOptions={{
-      tabBarStyle: {
-      backgroundColor: 'black',
-      height:"13%",
-      borderColor:"black",
-      },
-    }} >
-      <Tabs.Screen
-        name="index"
-        options={{
-          headerShown:false,
-          title:"",
-          tabBarIcon: ()=> {
-            return(
-             <>
-             <Image style={{ width: 55, height: 55 ,top:"100%" }}
-              contentFit="contain" source={require('@/assets/images/homescreenicon.svg')} />
-             </>
-            );
-          },  
-        }}
-      />
-    </Tabs>
-    </GestureHandlerRootView>
+  return(
+     <Stack >
+      <Stack.Screen name="index" options={{headerShown:false}} ></Stack.Screen>
+      <Stack.Screen name="(tabs)" options={{headerShown:false}} ></Stack.Screen>
+      <Stack.Screen name="(auth)" options={{headerShown:false}} ></Stack.Screen>
+     </Stack>
   )
 }
+
+export default RootLayout

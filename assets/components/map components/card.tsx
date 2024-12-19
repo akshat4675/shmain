@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     		height: 13,
     		alignItems: "center",
     		display: "flex",
-    		fontFamily: "SF Pro Rounded",
     		textAlign: "left",
     		color: "#fff"
   	},
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     		position: "absolute"
   	},
   	rsvpTypo: {
-    		fontFamily: "SF Pro Rounded",
+    	
     		position: "absolute"
   	},
   	groupChild: {
@@ -110,7 +109,6 @@ const styles = StyleSheet.create({
     		top: "100%",
     		height: 11,
     		width: 91,
-    		fontFamily: "Poppins-Medium",
     		fontWeight: "500",
     		lineHeight: 11,
     		fontSize: 7,
@@ -134,7 +132,6 @@ const styles = StyleSheet.create({
     		color: "#2e3239",
     		width: 150,
 
-    		fontFamily: "SF Pro Rounded",
     		position: "absolute",
     		height: 135
   	},
@@ -158,11 +155,9 @@ const styles = StyleSheet.create({
     		position: "absolute",
   	},
   	venueTypo: {
-    		fontFamily: "Poppins-Medium",
     		fontWeight: "500"
   	},
   	spiceFoodFactory: {
-    		fontFamily: "Poppins-Regular"
   	},
   	venueSpiceContainer: {
     		top: "70%",
@@ -183,7 +178,6 @@ const styles = StyleSheet.create({
     		width: 91,
     		color: "#fff",
     		height: 14,
-    		fontFamily: "Poppins-Medium",
     		lineHeight: 11,
     		fontSize: 7
   	},
@@ -214,7 +208,6 @@ const styles = StyleSheet.create({
     		textAlign: "left",
     		color: "#fff",
     		fontWeight: "500",
-    		fontFamily: "SF Pro Rounded"
   	},
   	groupInner: {
     	    top:"40%",
@@ -244,7 +237,6 @@ const rsvpstyle = StyleSheet.create({
 		height: 30,
 		width: 200,
 		textAlign: "left",
-		fontFamily: "SF Pro Rounded",
 		top: "60%",
 		marginLeft: -68.31,
 		color: "#fff",
@@ -265,7 +257,6 @@ const rsvpstyle = StyleSheet.create({
 		fontSize: 11,
 		top:"120%",
 		right:"65%",
-		fontFamily: "SF Pro Rounded",
 		position: "absolute"
 		},
 		cancelFlexBox: {
@@ -276,7 +267,6 @@ const rsvpstyle = StyleSheet.create({
 			left:"25%",
 			height: 35,
 			alignItems: "center",
-			fontFamily: "SF Pro Rounded",
 			position: "absolute"
 			},
 		rectangleLayout: {
